@@ -30,3 +30,11 @@
 *.exe
 *.out
 *.app
+
+# PyPi
+/build
+/dist
+*.egg-info
+
+# VS Code
+*.vscode
