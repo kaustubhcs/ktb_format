@@ -7,15 +7,17 @@
 | --------- | ------------------ | -------------------------------------------------------------------- | ------------ |
 | 1         | README size        | Size of the README attached to this binary in bytes.                 | 4 bytes      |
 | 2         | README             | A human readable table of list of variables in this binary.          | Variable     |
-| 1         | Variable Count     | Count of the total variables stored in this format.                  | 4 bytes      |
-| 2         | Variable 1: Type   | Type of data [4 Byte or 8 Byte]                                      | 4 bytes      |
-| 3         | Variable 1: Offset | The offset of the variable (in Bytes) from the start of this binary. | 4 bytes      |
-| 4         | Variable 2: Type   | Type of data [4 Byte or 8 Byte]                                      | 4 bytes      |
-| 5         | Variable 2: Offset | The offset of the variable (in Bytes) from the start of this binary. | 4 bytes      |
+| 3         | Variable Count     | Count of the total variables stored in this format.                  | 4 bytes      |
+| 4         | Variable 1: Type   | Type of data [4 Byte or 8 Byte]                                      | 4 bytes      |
+| 5         | Variable 1: Offset | The offset of the variable (in Bytes) from the start of this binary. | 4 bytes      |
+| 6         | Variable 1: Count  | Total number of elements in this variable                            | 4 bytes      |
+| 7         | Variable 2: Type   | Type of data [4 Byte or 8 Byte]                                      | 4 bytes      |
+| 8         | Variable 2: Offset | The offset of the variable (in Bytes) from the start of this binary. | 4 bytes      |
+| 9         | Variable 2:  Count | Total number of elements in this variable                            |              |
 | ...       | ...                |                                                                      |              |
-| 6         | Variable 1: Data   | Data of the variable in binary                                       | Variable     |
-| 7         | Variable 2: Data   | Data of the variable in binary                                       | Variable     |
-| 8         | Error Check Flag   | Single byte ASCII character `K` (Capital K)                          |              |
+| 10        | Variable 1: Data   | Data of the variable                                                 | Variable     |
+| 11        | Variable 2: Data   | Data of the variable                                                 | Variable     |
+| 12        | Error Check Flag   | Single byte ASCII character `K` (Capital K)                          |              |
 
 *Warning*: Trying to access 8 byte data (like Double precision float) from a memory address that is not aligned to 8 bytes might create segmentation faults. In this case, enable the `PAD_8_BYTES` flag.
 
