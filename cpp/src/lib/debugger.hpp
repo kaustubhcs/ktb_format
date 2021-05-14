@@ -17,6 +17,6 @@ void color_reset();
 #define yellow "\e[1;33m"
 #define cyan "\e[1;36m"
 #define underline "\e[1;4m"
-#define reset "\e[0m"
+#define reset_color "\e[0m"
 
 #endif // DEBUGGER_HPP

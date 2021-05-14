@@ -50,19 +50,19 @@ ktb *ktb_read_mtx(const char *file_name)
 
 void ktb_printer(ktb *ktb_object)
 {
-    cout << cyan << "Readme Size: " << reset << ktb_object->readme_size << endl;
-    cout << cyan << "Readme Content: " << reset << ktb_object->readme_content;
-    cout << cyan << "Variable Count: " << reset << ktb_object->variable_count << endl;
-    cout << cyan << "Variable Type Array: " << reset;
+    cout << cyan << "Readme Size: " << reset_color << ktb_object->readme_size << endl;
+    cout << cyan << "Readme Content: " << reset_color << ktb_object->readme_content;
+    cout << cyan << "Variable Count: " << reset_color << ktb_object->variable_count << endl;
+    cout << cyan << "Variable Type Array: " << reset_color;
     ktb_int_array_printer(ktb_object->variable_type_array, ktb_object->variable_count);
     cout << endl;
-    cout << cyan << "Variable Offset Array: " << reset;
+    cout << cyan << "Variable Offset Array: " << reset_color;
     ktb_int_array_printer(ktb_object->variable_offset_array, ktb_object->variable_count);
     cout << endl;
-    cout << cyan << "Variable Count Array: " << reset;
+    cout << cyan << "Variable Count Array: " << reset_color;
     ktb_int_array_printer(ktb_object->variable_element_count_array, ktb_object->variable_count);
     cout << endl;
-    cout << cyan << "Data Array" << reset << endl;
+    cout << cyan << "Data Array" << reset_color << endl;
     const int type_size_array[7] = {0, 4, 4, 8, 4, 8, 1};
     for (int i = 0; i < ktb_object->variable_count; i++)
     {
@@ -133,8 +133,8 @@ void ktb_check(ktb *ktb_object)
     char canary = (ktb_object->error_check_flag)[0];
     if (canary != 'K')
     {
-        cout << red << "WARNING: " << reset << "Error check flag (Canary) not found. Memory chunk might be corrupted! ";
-        cout << "Found " << yellow << canary << reset << "instead of " << yellow << "K" << reset << endl;
+        cout << red << "WARNING: " << reset_color << "Error check flag (Canary) not found. Memory chunk might be corrupted! ";
+        cout << "Found " << yellow << canary << reset_color << "instead of " << yellow << "K" << reset_color << endl;
     }
 }
 

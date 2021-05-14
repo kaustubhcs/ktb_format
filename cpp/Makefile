@@ -3,10 +3,13 @@
 # Created Kaustubh Shivdikar -- All Rights Reserved
 
 
-TARGET = hello.bin
+TARGET = ktb.bin
+LIB_TARGET = libktb.a
 CC = g++
 CFLAGS=-Wall -O2 -std=c++0x
 LDFLAGS=
+AR = ar
+AR_FLAGS = rcs
 
 ROOT_DIR=$(PWD)
 CODE_DIR=$(ROOT_DIR)/src/code
@@ -14,8 +17,9 @@ HEADER_DIR=$(ROOT_DIR)/src/lib
 LIB_DIR=$(ROOT_DIR)/src/lib
 OBJ_DIR=$(ROOT_DIR)/src/obj
 
-OBJ=$(CODE_DIR)/main.o $(OBJ_DIR)/functions.o $(OBJ_DIR)/debugger.o $(OBJ_DIR)/ktb_io.o
-OBJ_WITH_TARGET=$(OBJ_DIR)/main.o $(OBJ_DIR)/functions.o $(OBJ_DIR)/debugger.o $(OBJ_DIR)/ktb_io.o
+LIB_OBJ=$(OBJ_DIR)/functions.o $(OBJ_DIR)/debugger.o $(OBJ_DIR)/ktb_io.o
+OBJ=$(CODE_DIR)/main.o $(LIB_OBJ)
+OBJ_WITH_TARGET=$(OBJ_DIR)/main.o $(LIB_OBJ)
 
 
 
@@ -31,8 +35,10 @@ $(CODE_DIR)/%.o: $(CODE_DIR)/%.cpp
 	$(CC) -I$(LIB_DIR) $(CFLAGS) -c $<
 	mv $(@F) $(OBJ_DIR)
 
+libktb.a: clean $(OBJ)
+	$(AR) $(AR_FLAGS) $(ROOT_DIR)/$(LIB_TARGET) $(LIB_OBJ)
 
-
+libs: libktb.a
 
 clean:
 	printf "\n\e[1;32mCleaning all files\e[0m\n"
