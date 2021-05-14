@@ -36,13 +36,14 @@ $(CODE_DIR)/%.o: $(CODE_DIR)/%.cpp
 	mv $(@F) $(OBJ_DIR)
 
 libktb.a: clean $(OBJ)
-	$(AR) $(AR_FLAGS) $(ROOT_DIR)/$(LIB_TARGET) $(LIB_OBJ)
+	$(AR) $(AR_FLAGS) $(ROOT_DIR)/libs/$(LIB_TARGET) $(LIB_OBJ)
 
 libs: libktb.a
 
 clean:
 	printf "\n\e[1;32mCleaning all files\e[0m\n"
 	rm -f $(OBJ_DIR)/*.o $(ROOT_DIR)/*.bin
+	rm -f $(ROOT_DIR)/libs/$(LIB_TARGET)
 
 run: all
 	$(ROOT_DIR)/$(TARGET)
