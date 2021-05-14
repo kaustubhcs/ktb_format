@@ -39,3 +39,5 @@
 # VS Code
 *.vscode
 *anaconda-project.yml
+
+*.bin
