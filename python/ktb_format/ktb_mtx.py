@@ -1,12 +1,12 @@
-from .ktb_class import ktb
+from .ktb_class import *
 from scipy.io import mmread
 from pathlib import Path
 from struct import pack
 
 
-def mtx2ktb(file_path, precision=8):
-    if (precision != 4 and precision != 8):
-        raise Exception("Precision has to be either 4 or 8")
+def mtx2ktb(file_path, precision=TYPE_DOUBLE):
+    if (precision != TYPE_FLOAT and precision != TYPE_DOUBLE):
+        raise Exception("Precision has to be either TYPE_FLOAT or TYPE_DOUBLE")
     file_object = Path(file_path)
     if not(file_object.is_file()):
         raise Exception("File does not exist: " + file_path)
@@ -27,7 +27,7 @@ def mtx2ktb(file_path, precision=8):
     # 1. col_idx (4B)
     # 2. data (4B or 8B).
     ktb_object.variable_count = 3
-    ktb_object.variable_type_array = [4, 4, precision]
+    ktb_object.variable_type_array = [TYPE_INT, TYPE_INT, precision]
     ktb_object.variable_count_array = [len(row_ptr), len(col_idx), len(data)]
     ktb_object.variable_data_array = [row_ptr, col_idx, data]
     ktb_object.error_check_flag = 'K'
@@ -72,7 +72,6 @@ def ktb_matrix_write(ktb_matrix, outfile_name):
     h_variable_count_array = pack_int_array(ktb_matrix.variable_count_array)
     h_readme_content = (ktb_matrix.readme_content).encode('ascii')
 
-    # TODO: Set offset values.
     INT_SIZE = 4  # In bytes
     LONG_LONG_SIZE = 8  # In bytes
     FLOAT_SIZE = 4  # In bytes
@@ -91,12 +90,12 @@ def ktb_matrix_write(ktb_matrix, outfile_name):
     h_row_ptr_array = pack_int_array(ktb_matrix.variable_data_array[0])
     h_col_idx_array = pack_int_array(ktb_matrix.variable_data_array[1])
     h_data = []
-    if ktb_matrix.variable_type_array[2] == 4:
+    if ktb_matrix.variable_type_array[2] == TYPE_FLOAT:
         h_data = pack_float_array(ktb_matrix.variable_data_array[2])
-    elif ktb_matrix.variable_type_array[2] == 8:
+    elif ktb_matrix.variable_type_array[2] == TYPE_DOUBLE:
         h_data = pack_double_array(ktb_matrix.variable_data_array[2])
     else:
-        raise Exception("Precision has to be either 4 or 8")
+        raise Exception("Precision has to be either TYPE_FLOAT or TYPE_DOUBLE")
 
     row_ptr_offset = headline_size
     col_idx_offset = row_ptr_offset + (INT_SIZE * len(h_row_ptr_array))

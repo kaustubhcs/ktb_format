@@ -1,6 +1,6 @@
 from setuptools import setup, find_packages
 
-VERSION = '0.0.3'
+VERSION = '0.0.4'
 DESCRIPTION = 'Python and C++ ASCII to Binary Packer and Unpacker'
 LONG_DESCRIPTION = 'Packages ASCII data to Binary using KTB (Keep That Bit) format.'
 

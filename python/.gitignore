@@ -1,3 +1,4 @@
 # PyPi
 /build
 /dist
+**/*pycache*
