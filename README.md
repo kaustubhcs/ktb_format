@@ -3,6 +3,7 @@
 ## Keep That Bit - Binary Format
 [![Author](https://img.shields.io/badge/Author-Kaustubh_Shivdikar-purple)](https://scholar.google.com/citations?user=NCTXsGMAAAAJ&hl=en&oi=ao) ![Status](https://img.shields.io/badge/Status-Open_source-green)
 ![Caution](https://img.shields.io/badge/CAUTION-Work_in_progess-red)
+
 KTB format is a universal format that allows for compartmentalizing binary data. When binary data needs to be stored in a file, the user has to remember the offsets for each "chunk" of data in that binary file. The KTB format allows for easy compartmentalizing of these chunks of data in memory. KTB format does so by adding a small metadata at the begining of the binary file.
 
 KTB format provides:
