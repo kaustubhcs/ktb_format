@@ -17,4 +17,4 @@ class ktb:
     variable_offset_array = []
     variable_count_array = []
     variable_data_array = []
-    error_check_flag = 'K'
+    error_check_flag = "K"

@@ -71,6 +71,7 @@ def ktb_matrix_write(ktb_matrix, outfile_name):
     h_variable_type_array = pack_int_array(ktb_matrix.variable_type_array)
     h_variable_count_array = pack_int_array(ktb_matrix.variable_count_array)
     h_readme_content = (ktb_matrix.readme_content).encode('ascii')
+    h_error_check_flag = (ktb_matrix.error_check_flag).encode('ascii')
 
     INT_SIZE = 4  # In bytes
     LONG_LONG_SIZE = 8  # In bytes
@@ -97,7 +98,9 @@ def ktb_matrix_write(ktb_matrix, outfile_name):
     else:
         raise Exception("Precision has to be either TYPE_FLOAT or TYPE_DOUBLE")
 
-    row_ptr_offset = headline_size
+    # row_ptr_offset = headline_size # This will set offset values from begining of Binary.
+    # This will set offset values from begining of data_array.
+    row_ptr_offset = 0
     col_idx_offset = row_ptr_offset + (INT_SIZE * len(h_row_ptr_array))
     data_offset = col_idx_offset + (INT_SIZE * len(h_col_idx_array))
     ktb_matrix.variable_offset_array = [
@@ -116,4 +119,5 @@ def ktb_matrix_write(ktb_matrix, outfile_name):
     output_file.writelines(h_row_ptr_array)
     output_file.writelines(h_col_idx_array)
     output_file.writelines(h_data)
+    output_file.write(h_error_check_flag)
     output_file.close()
