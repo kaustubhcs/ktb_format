@@ -2,6 +2,18 @@
 
 ## Keep That Bit - Binary Format
 [![Author](https://img.shields.io/badge/Author-Kaustubh_Shivdikar-purple)](https://scholar.google.com/citations?user=NCTXsGMAAAAJ&hl=en&oi=ao) ![Status](https://img.shields.io/badge/Status-Open_source-green)
+![Caution](https://img.shields.io/badge/CAUTION-Work_in_progess-red)
+KTB format is a universal format that allows for compartmentalizing binary data. When binary data needs to be stored in a file, the user has to remember the offsets for each "chunk" of data in that binary file. The KTB format allows for easy compartmentalizing of these chunks of data in memory. KTB format does so by adding a small metadata at the begining of the binary file.
+
+KTB format provides:
+1. A C++ library allowing you to read, convert and write data from multiple formats to ktb format and vice-versa.
+2. This repository also provides a python package called ``ktb_format`` that allows you to read, convert, write data from multiple format to KTB format.
+
+## Features
+
+## Usage
+* ``pip install ktb_format`` OR ``conda install -c kaustubhcs ktb_format``. Package details can be found here: [PyPi](https://pypi.org/project/ktb-format/), [Anaconda](https://anaconda.org/kaustubhcs/ktb_format)
+
 
 | Serial No | Content            | Content                                                              | Element size |
 | --------- | ------------------ | -------------------------------------------------------------------- | ------------ |
@@ -25,7 +37,7 @@
 
 ### Work in Progress
 - [ ] Add Python Reader
-- [ ] Add Python Writer
+- [X] Add Python Writer
 - [ ] Add C++ Reader
 - [ ] Add C++ Writer
 
