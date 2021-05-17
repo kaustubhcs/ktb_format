@@ -3,25 +3,46 @@
 from ktb_format.ktb_mtx import mtx2ktb, ktb_matrix_write
 from ktb_format.ktb_class import *
 
-# CONFIGURABLES
 DATA_DIR = "/home/ktb/git/sparse_matrix_data_generator/sparse_matrix_data/rmat"
+OUTPUT_DATA_DIR = "/home/ktb/git/sparse_matrix_data_generator/sparse_matrix_data/ktb/rmat"
+
+
+def input_matrix_filename_generator(edge_value, rmat_power, matrix_index):
+    matrix_filename = ""
+    if matrix_index == "A":
+        matrix_filename = DATA_DIR + "/edge_" + \
+            str(edge_value) + "/rmat_A_" + str(rmat_power) + ".mtx"
+    elif matrix_index == "B":
+        matrix_filename = DATA_DIR + "/edge_" + \
+            str(edge_value) + "/rmat_B_" + str(rmat_power) + ".mtx"
+    return matrix_filename
+
+
+def output_matrix_filename_generator(edge_value, rmat_power, matrix_index):
+    matrix_filename = ""
+    if matrix_index == "A":
+        matrix_filename = OUTPUT_DATA_DIR + "/edge_" + \
+            str(edge_value) + "/rmat_A_" + str(rmat_power) + ".ktb"
+    elif matrix_index == "B":
+        matrix_filename = DATA_DIR + "/edge_" + \
+            str(edge_value) + "/rmat_B_" + str(rmat_power) + ".ktb"
+    return matrix_filename
+
+
 EDGE_VALUE = 8
-RMAT_POWER = 23
-RMAT_DIR = DATA_DIR + "/edge_" + str(EDGE_VALUE)
-INPUT_MATRIX_A = RMAT_DIR + "/rmat_A_" + str(RMAT_POWER) + ".mtx"
-INPUT_MATRIX_B = RMAT_DIR + "/rmat_B_" + str(RMAT_POWER) + ".mtx"
+RMAT_POWER = [2, 10, 14]
 
-OUTPUT_DIR = "/home/ktb/git/sparse_matrix_data_generator/sparse_matrix_data/ktb/rmat/edge_" + \
-    str(EDGE_VALUE)
-OUTPUT_MATRIX_A = OUTPUT_DIR + "/rmat_A_" + str(RMAT_POWER) + ".ktb"
-OUTPUT_MATRIX_B = OUTPUT_DIR + "/rmat_B_" + str(RMAT_POWER) + ".ktb"
 
-# CODE
+for r in RMAT_POWER:
+    print("Converting Mat A, RMAT: " + str(r))
+    ktb_mat_A = mtx2ktb(input_matrix_filename_generator(
+        EDGE_VALUE, r, "A"), TYPE_FLOAT)
+    ktb_matrix_write(
+        ktb_mat_A, output_matrix_filename_generator(EDGE_VALUE, r, "A"))
+    print("Converting Mat B, RMAT: " + str(r))
+    ktb_mat_B = mtx2ktb(input_matrix_filename_generator(
+        EDGE_VALUE, r, "B"), TYPE_FLOAT)
+    ktb_matrix_write(
+        ktb_mat_B, output_matrix_filename_generator(EDGE_VALUE, r, "B"))
 
-print("Converting Mat A...")
-ktb_mat_A = mtx2ktb(INPUT_MATRIX_A, TYPE_FLOAT)
-ktb_matrix_write(ktb_mat_A, OUTPUT_MATRIX_A)
-print("Converting Mat B...")
-ktb_mat_B = mtx2ktb(INPUT_MATRIX_B, TYPE_FLOAT)
-ktb_matrix_write(ktb_mat_B, OUTPUT_MATRIX_B)
 print("Done")
