@@ -21,7 +21,17 @@ def mtx2ktb(file_path, precision=TYPE_DOUBLE):
         "\nCSR File\n" + \
         "Matrix Dimensions: " + str(matrix_size) + " x " + str(matrix_size) + "\n" + \
         "Number of non-zeros: " + str(len(data)) + "\n"
+    pad_size = 0
+    pad_size = (len(ktb_object.readme_content) + 4) % 8
+    if ((len(row_ptr) + len(col_idx)) % 2 == 1):
+        pad_size += 4
+    the_pad = get_padding(pad_size)
+    ktb_object.readme_content = \
+        "\nCSR File\n" + \
+        "Matrix Dimensions: " + str(matrix_size) + " x " + str(matrix_size) + "\n" + \
+        "Number of non-zeros: " + str(len(data)) + the_pad + "\n"
     ktb_object.readme_size = len(ktb_object.readme_content)
+
     # Create 3 variables
     # 0. row_ptr (4B)
     # 1. col_idx (4B)
@@ -121,3 +131,10 @@ def ktb_matrix_write(ktb_matrix, outfile_name):
     output_file.writelines(h_data)
     output_file.write(h_error_check_flag)
     output_file.close()
+
+
+def get_padding(pad_size):
+    pad = ""
+    for i in range(pad_size):
+        pad += " "
+    return pad

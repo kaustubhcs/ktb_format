@@ -4,13 +4,24 @@
 #include <fstream>
 #include <sys/stat.h>
 #include <cstring>
-
+#include <cuda_runtime_api.h> // cudaMalloc, cudaMemcpy, etc.
 using namespace std;
 
 ktb *ktb_read_mtx(const char *file_name)
 {
     ktb *matrix;
-    matrix = (ktb *)malloc(1 * sizeof(ktb));
+    // TODO: Make this library work for CPU as well as without CUDA library.
+    // if (malloc_use == CPU_MALLOC)
+    // {
+    // matrix = (ktb *)malloc(1 * sizeof(ktb));
+    // }
+    // else if (malloc_use == GPU_MALLOC)
+    // {
+    // matrix = (ktb *)cudaMallocHost(1 * sizeof(ktb));
+    // }
+    // KTB_FORMAT_PRINT("Allocating KTB object on Host");
+    CHECK_CUDA(cudaMallocHost((void **)&matrix, 1 * sizeof(ktb)));
+
     struct stat file_meta;
     // The size of the file in bytes
     int file_size;
@@ -22,7 +33,8 @@ ktb *ktb_read_mtx(const char *file_name)
         return (nullptr);
     }
     char *ktb_mem;
-    ktb_mem = (char *)malloc(file_size * sizeof(char));
+    // ktb_mem = (char *)malloc(file_size * sizeof(char));
+    CHECK_CUDA(cudaMallocHost((void **)&ktb_mem, file_size * sizeof(char)));
     std::ifstream file_object(file_name, ios::in | ios::binary);
     file_object.read(ktb_mem, file_size);
     if (!file_object)
@@ -31,13 +43,17 @@ ktb *ktb_read_mtx(const char *file_name)
         return (nullptr);
     }
     matrix->readme_size = ((int *)ktb_mem)[0];
-    char *readme_char_array = (char *)malloc(matrix->readme_size * sizeof(char));
-    memcpy(readme_char_array, &(ktb_mem[4]), matrix->readme_size);
+    char *readme_char_array;
+    // char *readme_char_array = (char *)malloc(matrix->readme_size * sizeof(char));
+    CHECK_CUDA(cudaMallocHost((void **)&readme_char_array, matrix->readme_size * sizeof(char)));
+    CHECK_CUDA(cudaMemcpy(readme_char_array, &(ktb_mem[4]),
+                          matrix->readme_size,
+                          cudaMemcpyDeviceToDevice));
+    // memcpy(readme_char_array, &(ktb_mem[4]), matrix->readme_size);
     matrix->readme_content = readme_char_array;
     // matrix->readme_content = &(ktb_mem[4]); // Will not work if you have a null terminate character in the REAMDE CONTENT string.
     int *ktb_mem_variable_count_ptr = (int *)&(ktb_mem[4 + matrix->readme_size]);
     matrix->variable_count = ktb_mem_variable_count_ptr[0];
-
     matrix->variable_type_array = ktb_mem_variable_count_ptr + 1;
     matrix->variable_offset_array = matrix->variable_type_array + matrix->variable_count;
     matrix->variable_element_count_array = matrix->variable_offset_array + matrix->variable_count;
@@ -144,4 +160,13 @@ inline int get_min(int a, int b)
         return a;
     else
         return b;
+}
+
+ktb::ktb(void)
+{
+    // Constructor
+}
+ktb::~ktb(void)
+{
+    // Destructor
 }

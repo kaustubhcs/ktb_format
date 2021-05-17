@@ -14,6 +14,9 @@
 #define TYPE_DOUBLE 5
 #define TYPE_CHAR 6
 
+#define CPU_MALLOC 1
+#define GPU_MALLOC 2
+
 // Configurations
 #define MAX_PRINT_ELEMENTS 10
 
@@ -34,8 +37,8 @@ class ktb
 private:
     /* data */
 public:
-    ktb(/* args */);
-    ~ktb();
+    inline ktb(/* args */);
+    inline ~ktb();
     int readme_size;
     string readme_content;
     int variable_count;

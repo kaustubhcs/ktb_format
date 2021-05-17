@@ -15,6 +15,16 @@ struct Input
 	long *number;
 };
 
+#define CHECK_CUDA(func)                                               \
+	{                                                                  \
+		cudaError_t status = (func);                                   \
+		if (status != cudaSuccess)                                     \
+		{                                                              \
+			printf("CUDA API failed at line %d with error: %s (%d)\n", \
+				   __LINE__, cudaGetErrorString(status), status);      \
+		}                                                              \
+	}
+
 Input get_inputs(int, char **, Input, int printer = 0);
 void print_inputs(int, Input);
 

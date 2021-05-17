@@ -19,4 +19,17 @@ void color_reset();
 #define underline "\e[1;4m"
 #define reset_color "\e[0m"
 
+#define KTB_FORMAT_VERBOSE
+
+#ifdef KTB_FORMAT_VERBOSE
+#define KTB_FORMAT_PRINT(TEXT) \
+    {                          \
+        cout << TEXT << endl;  \
+    }
+#else
+#define KTB_FORMAT_PRINT(TEXT) \
+    {                          \
+    }
+#endif //KTB_FORMAT_VERBOSE
+
 #endif // DEBUGGER_HPP

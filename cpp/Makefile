@@ -5,8 +5,10 @@
 
 TARGET = ktb.bin
 LIB_TARGET = libktb.a
-CC = g++
-CFLAGS=-Wall -O2 -std=c++0x
+#CC = g++
+# CFLAGS=-Wall -O2 -std=c++0x
+CC = nvcc
+CFLAGS=-O2 -std=c++11 -g
 LDFLAGS=
 AR = ar
 AR_FLAGS = rcs
